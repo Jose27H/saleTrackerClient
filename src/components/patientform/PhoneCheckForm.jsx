@@ -38,9 +38,25 @@ const Form = () => {
   };
 
   const redirectMe = (event) => {
-    sessionStorage.setItem("patientNumber", number);
+    sessionStorage.setItem("customerPhoneNumber", number);
 
-    window.location.href = "/services";
+    fetch("http://localhost:3000/api/startSale", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phoneNumber: number }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = "/services";
+        } else {
+          console.error("Failed to start sale:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error starting sale:", error);
+      });
   };
 
   return (

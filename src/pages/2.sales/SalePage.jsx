@@ -24,46 +24,25 @@ class ErrorBoundary extends React.Component {
 }
 
 const Services = () => {
-  const [patientData, setPatientData] = useState({
+  const [customerData, setCustomerData] = useState({
     name: "",
     phoneNumber: "",
     email: "",
-    observations: "",
+    saleID: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
   const [saleItems, setSaleItems] = useState([]);
 
-  const patientNumber = sessionStorage.getItem("patientNumber");
+  const customerPhoneNumber = sessionStorage.getItem("customerPhoneNumber");
 
-  const fetchPatientData = () => {
-    // Get the patient number from session storage
-
-    // Make an API request to fetch patient data based on the patient number
+  const fetchCustomerData = () => {
     fetch(
-      `/api/patientData?name=${patientNumber}`
+      `http://localhost:3000/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        // Set the fetched patient data in state
-        setPatientData(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const fetchSaleItems = () => {
-    // Make an API request to fetch the sale items for the patient
-    fetch(
-      `/api/patientData?name=${patientNumber}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Set the fetched sale items in state
-        setSaleItems(data);
+        setCustomerData(data);
       })
       .catch((error) => {
         console.error(error);
@@ -71,18 +50,8 @@ const Services = () => {
   };
 
   useEffect(() => {
-    // Fetch patient data and sale items from the backend on load
-    fetchPatientData();
-    fetchSaleItems();
+    fetchCustomerData();
   }, []);
-
-  const handleObservationsChange = (event) => {
-    const { value } = event.target;
-    setPatientData((prevPatientData) => ({
-      ...prevPatientData,
-      message: value,
-    }));
-  };
 
   const handleProductNameChange = (event) => {
     setProductName(event.target.value);
@@ -92,49 +61,28 @@ const Services = () => {
     setDaysUntilRefill(event.target.value);
   };
 
-  const handleAddToSale = () => {
-    // Make an API request to add the item to the sale in the database
-    fetch(`/api/patientData`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        phoneNumber: patientNumber,
-        productName: productName,
-        daysUntilRefill: daysUntilRefill,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Fetch the updated sale items after adding the item
-        fetchSaleItems();
-        // Clear the input fields
-        setProductName("");
-        setDaysUntilRefill("");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   return (
     <ErrorBoundary>
       <div className="flex justify-center">
         <div className="max-w-md p-6 bg-white rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-4">{patientData.name}</h2>
+          <h2 className="text-2xl font-bold mb-4">{customerData.name}</h2>
+
+          <label htmlFor="saleID" className="text-gray-700 font-semibold mb-1">
+            Sale ID:
+          </label>
+          <p className="mb-2">{customerData.saleID}</p>
           <label
             htmlFor="phoneNumber"
             className="text-gray-700 font-semibold mb-1"
           >
             Phone Number:
           </label>
-          <p className="mb-2">{patientData.phonenumber}</p>
+          <p className="mb-2">{customerData.phoneNumber}</p>
 
           <label htmlFor="email" className="text-gray-700 font-semibold mb-1">
             Email:
           </label>
-          <p className="mb-4"> {patientData.email}</p>
+          <p className="mb-4">{customerData.email}</p>
 
           <div className="mb-4">
             <h3 className="text-lg font-bold mb-2">Sale Items:</h3>
@@ -172,7 +120,7 @@ const Services = () => {
               id="productName"
               name="productName"
               value={productName}
-              onChange={handleProductNameChange}
+              // onChange={handleProductNameChange}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
             />
           </div>
@@ -196,7 +144,7 @@ const Services = () => {
 
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-            onClick={handleAddToSale}
+            onChange={handleProductNameChange}
           >
             Add to Sale
           </button>

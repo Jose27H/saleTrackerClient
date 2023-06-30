@@ -21,11 +21,10 @@ const Form = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Navigate to the specified URL
 
     const selectedDate = `${formData.month}-${formData.day}-${formData.year}`;
 
-    fetch("https://callertrackerserver.up.railway.app/api/form", {
+    fetch("http://localhost:3000/api/form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,8 +33,8 @@ const Form = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response data if needed
-        console.log(data);
+        // Display the backend response on the frontend
+        alert(data.error || data.success);
         // Clear the form fields
         setFormData({
           name: "",
@@ -45,16 +44,15 @@ const Form = () => {
           day: "",
           year: "",
           state: "",
-          message: "",
         });
 
-        sessionStorage.setItem("patientNumber", formData.phoneNumber);
-        window.location.href = "/Patienttable";
+        sessionStorage.setItem("customerPhoneNumber", formData.phoneNumber);
+        window.location.href = "/Services";
       })
       .catch((error) => {
         // Handle errors if any
+        alert("Failed to submit form. Please try again later.");
         console.error(error);
-        alert("ERROR");
       });
   };
 
@@ -276,22 +274,6 @@ const Form = () => {
         </select>
       </div>
 
-      <div className="mb-4">
-        <label
-          htmlFor="message"
-          className="block text-gray-700 font-semibold mb-1"
-        >
-          Observations:
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleInputChange}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-          rows="5"
-        />
-      </div>
       <div className="mb-4">
         <button
           type="submit"
