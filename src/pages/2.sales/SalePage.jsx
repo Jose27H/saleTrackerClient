@@ -41,7 +41,7 @@ const Services = () => {
 
     // Make an API request to fetch patient data based on the patient number
     fetch(
-      `https://callertrackerserver.up.railway.app/api/patientData?name=${patientNumber}`
+      `/api/patientData?name=${patientNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -57,7 +57,7 @@ const Services = () => {
   const fetchSaleItems = () => {
     // Make an API request to fetch the sale items for the patient
     fetch(
-      `https://callertrackerserver.up.railway.app/api/patientData?name=${patientNumber}`
+      `/api/patientData?name=${patientNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -94,20 +94,17 @@ const Services = () => {
 
   const handleAddToSale = () => {
     // Make an API request to add the item to the sale in the database
-    fetch(
-      `https://callertrackerserver.up.railway.app/api/patientData?name=${patientNumber}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber: patientNumber,
-          productName: productName,
-          daysUntilRefill: daysUntilRefill,
-        }),
-      }
-    )
+    fetch(`/api/patientData`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        phoneNumber: patientNumber,
+        productName: productName,
+        daysUntilRefill: daysUntilRefill,
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         // Fetch the updated sale items after adding the item
