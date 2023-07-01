@@ -32,6 +32,7 @@ const Services = () => {
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
+  const [price, setPrice] = useState("");
   const [saleItems, setSaleItems] = useState([]);
 
   const customerPhoneNumber = sessionStorage.getItem("customerPhoneNumber");
@@ -49,9 +50,28 @@ const Services = () => {
       });
   };
 
+  const fetchSaleItems = () => {
+    alert(customerData.saleID);
+
+    fetch(`http://localhost:3000/api/saleItems?saleID=${customerData.saleID}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setSaleItems(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     fetchCustomerData();
   }, []);
+
+  useEffect(() => {
+    if (customerData.saleID) {
+      fetchSaleItems();
+    }
+  }, [customerData.saleID]);
 
   const handleProductNameChange = (event) => {
     setProductName(event.target.value);
@@ -59,6 +79,41 @@ const Services = () => {
 
   const handleDaysUntilRefillChange = (event) => {
     setDaysUntilRefill(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
+
+  const handleAddtoSale = () => {
+    const newItem = {
+      productName,
+      daysUntilRefill,
+      price,
+    };
+
+    // Send the data to the backend
+    fetch("http://localhost:3000/api/addToSale", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        saleID: customerData.saleID,
+        ...newItem,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Item added to sale:", data);
+        setProductName("");
+        setDaysUntilRefill("");
+        setPrice("");
+        fetchSaleItems(); // Fetch updated sale items after adding a new item
+      })
+      .catch((error) => {
+        console.error("Error adding item to sale:", error);
+      });
   };
 
   return (
@@ -97,9 +152,9 @@ const Services = () => {
                     <span className="font-semibold">Days Until Refill:</span>{" "}
                     {item.daysUntilRefill}
                   </p>
+
                   <p>
-                    <span className="font-semibold">Order Date:</span>{" "}
-                    {item.orderDate}
+                    <span className="font-semibold">Price:</span> ${item.price}
                   </p>
                 </div>
               ))
@@ -120,7 +175,7 @@ const Services = () => {
               id="productName"
               name="productName"
               value={productName}
-              // onChange={handleProductNameChange}
+              onChange={handleProductNameChange}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
             />
           </div>
@@ -142,9 +197,23 @@ const Services = () => {
             />
           </div>
 
+          <div className="mb-4">
+            <label htmlFor="price" className="text-gray-700 font-semibold">
+              Price:
+            </label>
+            <input
+              type="text"
+              id="price"
+              name="price"
+              value={price}
+              onChange={handlePriceChange}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+            />
+          </div>
+
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-            onChange={handleProductNameChange}
+            onClick={handleAddtoSale}
           >
             Add to Sale
           </button>
