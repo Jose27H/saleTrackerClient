@@ -51,12 +51,11 @@ const Services = () => {
   };
 
   const fetchSaleItems = () => {
-    alert(customerData.saleID);
-
     fetch(`http://localhost:3000/api/saleItems?saleID=${customerData.saleID}`)
       .then((response) => response.json())
       .then((data) => {
-        setSaleItems(data);
+        console.log(data.items);
+        setSaleItems(data.items);
       })
       .catch((error) => {
         console.error(error);
@@ -83,6 +82,14 @@ const Services = () => {
 
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
+  };
+
+  const calculateDaysDifference = (reorderDate) => {
+    const today = new Date();
+    const orderDate = new Date(reorderDate);
+    const timeDifference = Math.abs(today - orderDate);
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    return daysDifference;
   };
 
   const handleAddtoSale = () => {
@@ -146,11 +153,11 @@ const Services = () => {
                 <div key={index} className="mb-2">
                   <p>
                     <span className="font-semibold">Product Name:</span>{" "}
-                    {item.productName}
+                    {item.item_name}
                   </p>
                   <p>
                     <span className="font-semibold">Days Until Refill:</span>{" "}
-                    {item.daysUntilRefill}
+                    {calculateDaysDifference(item.reorder_date)}
                   </p>
 
                   <p>
