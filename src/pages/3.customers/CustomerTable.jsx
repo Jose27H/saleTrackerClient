@@ -49,10 +49,26 @@ const CustomerTable = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
 
-  const handlePatientClick = (phoneNumber) => {
-    sessionStorage.setItem("patientNumber", phoneNumber);
+  const redirectMe = (number) => {
+    sessionStorage.setItem("customerPhoneNumber", number);
 
-    window.location.href = "/Services";
+    fetch("http://localhost:3000/api/startSale", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ phoneNumber: number }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.href = "/services";
+        } else {
+          console.error("Failed to start sale:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error starting sale:", error);
+      });
   };
 
   return (
@@ -90,7 +106,7 @@ const CustomerTable = () => {
             </div>
             <div className="patient-action">
               <button
-                onClick={() => handlePatientClick(patient.phonenumber)}
+                onClick={() => redirectMe(patient.phonenumber)}
                 className="px-4 py-2 bg-blue-500 text-white rounded-md"
               >
                 Select

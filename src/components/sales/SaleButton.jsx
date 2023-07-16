@@ -7,9 +7,10 @@ function SaleButton({ onNewSaleClick }) {
 
   const handleViewSales = async (event) => {
     try {
-      const response = await fetch("http://localhost:3000/api/viewSales");
-      const data = await response.json();
-      console.log(data.saleItems);
+      // const response = await fetch("http://localhost:3000/api/viewSales");
+      // const data = await response.json();
+      window.location.href = "/SaleList";
+      // console.log(data.saleItems);
       // Update state or perform any other operations with the sale items
     } catch (error) {
       console.error("Error fetching sale items:", error);
