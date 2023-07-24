@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const SaleList = () => {
+const ClosedSaleList = () => {
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -10,7 +10,9 @@ const SaleList = () => {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/viewSales`);
+        const response = await fetch(
+          `http://localhost:3000/api/viewClosedSales`
+        );
         const data = await response.json();
         setSales(data.saleItems);
         setTotalPages(Math.ceil(data.saleItems.length / pageSize));
@@ -41,7 +43,7 @@ const SaleList = () => {
   return (
     <div className="bg-white-200">
       <h1 className="text-4xl font-bold text-center bg-blue-400 py-4">
-        Open Sales
+        Closed Sales
       </h1>
       {sales.slice(startIndex, endIndex).map((item, index) => (
         <div
@@ -101,4 +103,4 @@ const SaleList = () => {
   );
 };
 
-export default SaleList;
+export default ClosedSaleList;

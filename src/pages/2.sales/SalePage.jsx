@@ -34,6 +34,7 @@ const Services = () => {
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
   const [price, setPrice] = useState("");
   const [saleItems, setSaleItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const customerPhoneNumber = sessionStorage.getItem("customerPhoneNumber");
 
@@ -56,6 +57,7 @@ const Services = () => {
       .then((data) => {
         console.log(data.items);
         setSaleItems(data.items);
+        setTotal(data.totalPrice);
       })
       .catch((error) => {
         console.error(error);
@@ -163,12 +165,19 @@ const Services = () => {
                   <p>
                     <span className="font-semibold">Price:</span> ${item.price}
                   </p>
+                  <p>
+                    <span className="font-semibold">Has been contacted? :</span>{" "}
+                    {item.hascalled ? "Yes" : "No"}
+                  </p>
                 </div>
               ))
             ) : (
               <p>No sale items available.</p>
             )}
           </div>
+          <p>
+            <span className="font-semibold">Total:</span> ${total}
+          </p>
 
           <div className="mb-4">
             <label
