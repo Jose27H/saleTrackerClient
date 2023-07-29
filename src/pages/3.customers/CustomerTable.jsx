@@ -71,6 +71,11 @@ const CustomerTable = () => {
       });
   };
 
+  const viewCXSales = (number) => {
+    sessionStorage.setItem("customerPhoneNumber", number);
+    window.location.href = "CxSales";
+  };
+
   return (
     <div>
       <div className="flex mb-4">
@@ -89,9 +94,12 @@ const CustomerTable = () => {
         </button>
       </div>
 
-      <div className="table-container">
+      <div className="table-container ">
         {customers.map((patient) => (
-          <div key={patient.id} className="patient-row">
+          <div
+            key={patient.id}
+            className="bg-gray-400 rounded-lg px-8 py-8 text-center "
+          >
             <div className="patient-info">
               <div className="info-label">Name:</div>
               <div className="info-value">{patient.name}</div>
@@ -106,10 +114,16 @@ const CustomerTable = () => {
             </div>
             <div className="patient-action">
               <button
-                onClick={() => redirectMe(patient.phonenumber)}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                onClick={() => viewCXSales(patient.phonenumber)}
+                className="px-4 py-4 m-2 bg-green-500 text-white rounded-md"
               >
-                Select
+                View All Sales
+              </button>
+              <button
+                onClick={() => redirectMe(patient.phonenumber)}
+                className="px-2 m-2 py-2 bg-blue-500 text-white rounded-md"
+              >
+                Create New Sale
               </button>
             </div>
           </div>
@@ -145,17 +159,21 @@ const CustomerTable = () => {
       <style jsx>{`
         .table-container {
           display: flex;
+          justify-content: center;
           flex-direction: column;
           gap: 1rem;
         }
 
         .patient-row {
           display: flex;
+
           flex-wrap: wrap;
+
           gap: 1rem;
-          background-color: #f3f3f3;
+          background-color: teal;
           padding: 1rem;
           border-radius: 0.5rem;
+          width: 50%;
         }
 
         .patient-info {

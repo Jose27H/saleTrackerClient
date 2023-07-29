@@ -6,12 +6,14 @@ const ExistingSale = () => {
     phoneNumber: "",
     email: "",
     saleID: "",
+    notes: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
   const [price, setPrice] = useState("");
   const [saleItems, setSaleItems] = useState([]);
   const [total, setTotal] = useState(0);
+  const [notesValue, setNotesValue] = useState("");
 
   const customerPhoneNumber = sessionStorage.getItem("customerPhoneNumber");
   const saleID = sessionStorage.getItem("saleID");
@@ -23,6 +25,7 @@ const ExistingSale = () => {
       .then((response) => response.json())
       .then((data) => {
         setCustomerData(data);
+        console.log(customerData);
       })
       .catch((error) => {
         console.error(error);
@@ -46,6 +49,32 @@ const ExistingSale = () => {
   useEffect(() => {
     fetchCustomerData();
   }, []);
+
+  const handleNotesChange = (event) => {
+    setCustomerData({ ...customerData, notes: event.target.value });
+  };
+  const handleUpdateNotes = () => {
+    // Send the updated notes to the backend
+    fetch(`http://localhost:3000/api/updateNotes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        saleID: saleID,
+        notes: customerData.notes, // Use the updated notes value
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Notes updated:", data);
+        alert("Note Updated!");
+        // Optionally, you can display a success message or update the UI
+      })
+      .catch((error) => {
+        console.error("Error updating notes:", error);
+      });
+  };
 
   useEffect(() => {
     if (customerData.saleID) {
@@ -125,8 +154,8 @@ const ExistingSale = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <div className="max-w-md p-6 bg-white rounded-lg shadow-lg">
+    <div className="flex justify-center bg-gray-500 min-h-screen ">
+      <div className="max-w-md p-6 bg-white rounded-lg shadow-lg min h-2/3">
         <h2 className="text-2xl font-bold mb-4">{customerData.name}</h2>
 
         <label htmlFor="saleID" className="text-gray-700 font-semibold mb-1">
@@ -145,6 +174,22 @@ const ExistingSale = () => {
           Email:
         </label>
         <p className="mb-4">{customerData.email}</p>
+        <div className="mb-4">
+          <h1>Notes:</h1>
+
+          <textarea
+            value={customerData.notes}
+            onChange={handleNotesChange}
+            className="px-4 w-full py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+          />
+          <br />
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            onClick={handleUpdateNotes}
+          >
+            Update Notes
+          </button>
+        </div>
 
         <div className="mb-4">
           <h3 className="text-lg font-bold mb-2">Sale Items:</h3>

@@ -29,6 +29,7 @@ const Services = () => {
     phoneNumber: "",
     email: "",
     saleID: "",
+    notes: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -125,9 +126,36 @@ const Services = () => {
       });
   };
 
+  const handleNotesChange = (event) => {
+    setCustomerData({ ...customerData, notes: event.target.value });
+  };
+
+  const handleUpdateNotes = () => {
+    // Send the updated notes to the backend
+    fetch(`http://localhost:3000/api/updateNotes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        saleID: customerData.saleID,
+        notes: customerData.notes, // Use the updated notes value
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Notes updated:", data);
+        alert("Note Updated!");
+        // Optionally, you can display a success message or update the UI
+      })
+      .catch((error) => {
+        console.error("Error updating notes:", error);
+      });
+  };
+
   return (
     <ErrorBoundary>
-      <div className="flex justify-center">
+      <div className="flex justify-center bg-gray-200">
         <div className="max-w-md p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4">{customerData.name}</h2>
 
@@ -147,6 +175,23 @@ const Services = () => {
             Email:
           </label>
           <p className="mb-4">{customerData.email}</p>
+
+          <div className="mb-4">
+            <h1>Notes:</h1>
+
+            <textarea
+              value={customerData.notes}
+              onChange={handleNotesChange}
+              className="px-4 w-full py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+            />
+            <br />
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+              onClick={handleUpdateNotes}
+            >
+              Update Notes
+            </button>
+          </div>
 
           <div className="mb-4">
             <h3 className="text-lg font-bold mb-2">Sale Items:</h3>

@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-const ClosedSaleList = () => {
+const CxSales = () => {
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [CxName, setCxName] = useState("");
 
   const pageSize = 10; // Number of items per page
 
   useEffect(() => {
     const fetchSales = async () => {
       try {
+        const number = sessionStorage.getItem("customerPhoneNumber");
+
         const response = await fetch(
-          `http://localhost:3000/api/viewClosedSales`
+          `http://localhost:3000/api/viewCxSales?phoneNumber=${number}`
         );
         const data = await response.json();
         setSales(data.saleItems);
+        setCxName(
+          data.saleItems.length > 0 ? data.saleItems[0].customername + "'s" : ""
+        );
+
         setTotalPages(Math.ceil(data.saleItems.length / pageSize));
       } catch (error) {
         console.log("error");
@@ -41,16 +48,16 @@ const ClosedSaleList = () => {
   };
 
   return (
-    <div className="bg-black-200">
+    <div className="bg-white-200">
       <h1 className="text-4xl font-bold text-center bg-gray-500 py-4">
-        Closed Sales
+        {CxName} Sales
       </h1>
       {sales.slice(startIndex, endIndex).map((item, index) => (
         <div
           key={item.saleid}
-          className={`py-4 ${
+          className={`py-4 text-center ${
             index % 2 === 0 ? "bg-gray-200" : "bg-gray-300"
-          } rounded-lg text-center`}
+          } rounded-lg`}
         >
           <p>
             <strong>Customer Name:</strong> {item.customername}
@@ -103,4 +110,4 @@ const ClosedSaleList = () => {
   );
 };
 
-export default ClosedSaleList;
+export default CxSales;

@@ -6,7 +6,6 @@ const navigation = [
   { name: "Home", href: "/", current: false },
   { name: "Sales", href: "/Sales", current: false },
   { name: "Customers", href: "/Customers", current: false },
-  { name: "Other", href: "/ClosedSaleList", current: false },
 ];
 
 function classNames(...classes) {
@@ -15,7 +14,7 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <Disclosure as="nav" className="bg--500">
+    <Disclosure as="nav" className="bg-gray-500">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -35,12 +34,12 @@ export default function Example() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="https://logos-world.net/wp-content/uploads/2020/11/Nutrilite-Symbol.png"
                     alt="Your Company"
                   />
                   <img
                     className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="https://logos-world.net/wp-content/uploads/2020/11/Nutrilite-Symbol.png"
                     alt="Your Company"
                   />
                 </div>

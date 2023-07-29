@@ -12,7 +12,7 @@ function SaleHome() {
   };
 
   return (
-    <div>
+    <div className="bg-gray-500">
       {showTracker ? (
         <Tracker selectedButton={selectedButton} />
       ) : (

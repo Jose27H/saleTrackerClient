@@ -8,11 +8,12 @@ import ExistingSale from "./pages/2.sales/ExistingSale";
 import ClosedSaleList from "./pages/2.sales/ClosedSaleList";
 import SaleHome from "./pages/2.sales/SaleHome";
 import SaleList from "./pages/2.sales/SaleList";
+import CxSales from "./pages/3.customers/CxSales";
 import "./App.css";
 
 export default function App() {
   return (
-    <div>
+    <div className="bg-gray-500">
       <Router>
         <Navbar />
         <Routes>
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/ClosedSaleList" element={<ClosedSaleList />} />
           <Route path="/SaleList" element={<SaleList />} />
           <Route path="/Sales" element={<SaleHome />} />
+          <Route path="/CxSales" element={<CxSales />} />
         </Routes>
       </Router>
     </div>
