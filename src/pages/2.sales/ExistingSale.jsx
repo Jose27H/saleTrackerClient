@@ -7,6 +7,7 @@ const ExistingSale = () => {
     email: "",
     saleID: "",
     notes: "",
+    date: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -153,6 +154,15 @@ const ExistingSale = () => {
       });
   };
 
+  function formatDate(dateString) {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
+    return formattedDate;
+  }
+
   return (
     <div className="flex justify-center bg-gray-500 min-h-screen ">
       <div className="max-w-md p-6 bg-white rounded-lg shadow-lg min h-2/3">
@@ -162,6 +172,11 @@ const ExistingSale = () => {
           Sale ID:
         </label>
         <p className="mb-2">{saleID}</p>
+
+        <label htmlFor="date" className="text-gray-700 font-semibold mb-1">
+          Date Created:
+        </label>
+        <p className="mb-4">{formatDate(customerData.date)}</p>
         <label
           htmlFor="phoneNumber"
           className="text-gray-700 font-semibold mb-1"
@@ -278,7 +293,7 @@ const ExistingSale = () => {
           className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
           onClick={handleCloseSale}
         >
-          Closed
+          Mark as Contacted
         </button>
       </div>
     </div>
