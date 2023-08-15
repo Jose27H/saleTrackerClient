@@ -7,6 +7,7 @@ const ExistingSale = () => {
     email: "",
     saleID: "",
     notes: "",
+    saleDate: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -53,6 +54,7 @@ const ExistingSale = () => {
   const handleNotesChange = (event) => {
     setCustomerData({ ...customerData, notes: event.target.value });
   };
+
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
     fetch(`http://localhost:3000/api/updateNotes`, {
@@ -153,6 +155,15 @@ const ExistingSale = () => {
       });
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+  }
+
   return (
     <div className="flex justify-center bg-gray-500 min-h-screen ">
       <div className="max-w-md p-6 bg-white rounded-lg shadow-lg min h-2/3">
@@ -162,6 +173,10 @@ const ExistingSale = () => {
           Sale ID:
         </label>
         <p className="mb-2">{saleID}</p>
+        <label htmlFor="date" className="text-gray-700 font-semibold mb-1">
+          Date created:
+        </label>
+        <p className="mb-2">{formatDate(customerData.date)}</p>
         <label
           htmlFor="phoneNumber"
           className="text-gray-700 font-semibold mb-1"

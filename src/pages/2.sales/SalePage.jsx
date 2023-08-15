@@ -30,6 +30,7 @@ const Services = () => {
     email: "",
     saleID: "",
     notes: "",
+    saleDate: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -153,6 +154,15 @@ const Services = () => {
       });
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+
+    return `${day} ${month} ${year}`;
+  }
+
   return (
     <ErrorBoundary>
       <div className="flex justify-center bg-gray-200">
@@ -163,6 +173,11 @@ const Services = () => {
             Sale ID:
           </label>
           <p className="mb-2">{customerData.saleID}</p>
+
+          <label htmlFor="date" className="text-gray-700 font-semibold mb-1">
+            Date created:
+          </label>
+          <p className="mb-2">{formatDate(customerData.date)}</p>
           <label
             htmlFor="phoneNumber"
             className="text-gray-700 font-semibold mb-1"

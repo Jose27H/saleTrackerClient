@@ -52,6 +52,7 @@ const Form = () => {
       .catch((error) => {
         // Handle errors if any
         alert("Failed to submit form. Please try again later.");
+        window.location.href = "/Sales";
         console.error(error);
       });
   };
