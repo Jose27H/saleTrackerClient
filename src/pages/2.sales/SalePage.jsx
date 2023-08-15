@@ -30,7 +30,6 @@ const Services = () => {
     email: "",
     saleID: "",
     notes: "",
-    saleDate: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -42,7 +41,7 @@ const Services = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `http://localhost:3000/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `https://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -54,7 +53,9 @@ const Services = () => {
   };
 
   const fetchSaleItems = () => {
-    fetch(`http://localhost:3000/api/saleItems?saleID=${customerData.saleID}`)
+    fetch(
+      `https://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${customerData.saleID}`
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data.items);
@@ -104,7 +105,7 @@ const Services = () => {
     };
 
     // Send the data to the backend
-    fetch("http://localhost:3000/api/addToSale", {
+    fetch("https://saletrackerserver-production.up.railway.app/api/addToSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,16 +134,19 @@ const Services = () => {
 
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
-    fetch(`http://localhost:3000/api/updateNotes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        saleID: customerData.saleID,
-        notes: customerData.notes, // Use the updated notes value
-      }),
-    })
+    fetch(
+      `https://saletrackerserver-production.up.railway.app/api/updateNotes`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          saleID: customerData.saleID,
+          notes: customerData.notes, // Use the updated notes value
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Notes updated:", data);
@@ -154,15 +158,6 @@ const Services = () => {
       });
   };
 
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-
-    return `${day} ${month} ${year}`;
-  }
-
   return (
     <ErrorBoundary>
       <div className="flex justify-center bg-gray-200">
@@ -173,11 +168,6 @@ const Services = () => {
             Sale ID:
           </label>
           <p className="mb-2">{customerData.saleID}</p>
-
-          <label htmlFor="date" className="text-gray-700 font-semibold mb-1">
-            Date created:
-          </label>
-          <p className="mb-2">{formatDate(customerData.date)}</p>
           <label
             htmlFor="phoneNumber"
             className="text-gray-700 font-semibold mb-1"

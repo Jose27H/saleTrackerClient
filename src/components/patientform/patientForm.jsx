@@ -24,7 +24,7 @@ const Form = () => {
 
     const selectedDate = `${formData.month}-${formData.day}-${formData.year}`;
 
-    fetch("http://localhost:3000/api/form", {
+    fetch("https://saletrackerserver-production.up.railway.app/api/form", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

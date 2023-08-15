@@ -14,7 +14,7 @@ const CxSales = () => {
         const number = sessionStorage.getItem("customerPhoneNumber");
 
         const response = await fetch(
-          `http://localhost:3000/api/viewCxSales?phoneNumber=${number}`
+          `https://saletrackerserver-production.up.railway.app/api/viewCxSales?phoneNumber=${number}`
         );
         const data = await response.json();
         setSales(data.saleItems);

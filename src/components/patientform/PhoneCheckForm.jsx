@@ -9,7 +9,7 @@ const Form = () => {
     setNumber(inputValue);
 
     // Perform the POST/fetch API call
-    fetch("http://localhost:3000/api/formnumber", {
+    fetch("https://localhost:3000/api/formnumber", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const Form = () => {
   const redirectMe = (event) => {
     sessionStorage.setItem("customerPhoneNumber", number);
 
-    fetch("http://localhost:3000/api/startSale", {
+    fetch("https://localhost:3000/api/startSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
