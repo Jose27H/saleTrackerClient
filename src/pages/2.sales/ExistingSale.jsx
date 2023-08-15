@@ -21,7 +21,7 @@ const ExistingSale = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `http://localhost:3000/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `http://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -34,7 +34,9 @@ const ExistingSale = () => {
   };
 
   const fetchSaleItems = () => {
-    fetch(`http://localhost:3000/api/saleItems?saleID=${saleID}`)
+    fetch(
+      `http://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${saleID}`
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data.items);
@@ -56,16 +58,19 @@ const ExistingSale = () => {
   };
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
-    fetch(`http://localhost:3000/api/updateNotes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        saleID: saleID,
-        notes: customerData.notes, // Use the updated notes value
-      }),
-    })
+    fetch(
+      `http://saletrackerserver-production.up.railway.app/api/updateNotes`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          saleID: saleID,
+          notes: customerData.notes, // Use the updated notes value
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Notes updated:", data);
@@ -111,7 +116,7 @@ const ExistingSale = () => {
     };
 
     // Send the data to the backend
-    fetch("http://localhost:3000/api/addToSale", {
+    fetch("http://saletrackerserver-production.up.railway.app/api/addToSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,12 +141,15 @@ const ExistingSale = () => {
 
   const handleCloseSale = () => {
     // Send the current sale ID to the backend
-    fetch(`http://localhost:3000/api/closeSale/${saleID}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch(
+      `http://saletrackerserver-production.up.railway.app/api/closeSale/${saleID}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Sale closed:", data);

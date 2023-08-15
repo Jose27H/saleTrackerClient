@@ -10,7 +10,9 @@ const SaleList = () => {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/viewSales`);
+        const response = await fetch(
+          `http://saletrackerserver-production.up.railway.app/api/viewSales`
+        );
         const data = await response.json();
         setSales(data.saleItems);
         console.log(sales);

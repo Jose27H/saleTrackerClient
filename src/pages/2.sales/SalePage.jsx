@@ -42,7 +42,7 @@ const Services = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `http://localhost:3000/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `http://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -54,7 +54,9 @@ const Services = () => {
   };
 
   const fetchSaleItems = () => {
-    fetch(`http://localhost:3000/api/saleItems?saleID=${customerData.saleID}`)
+    fetch(
+      `http://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${customerData.saleID}`
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data.items);
@@ -104,7 +106,7 @@ const Services = () => {
     };
 
     // Send the data to the backend
-    fetch("http://localhost:3000/api/addToSale", {
+    fetch("http://saletrackerserver-production.up.railway.app/api/addToSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,16 +135,19 @@ const Services = () => {
 
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
-    fetch(`http://localhost:3000/api/updateNotes`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        saleID: customerData.saleID,
-        notes: customerData.notes, // Use the updated notes value
-      }),
-    })
+    fetch(
+      `http://saletrackerserver-production.up.railway.app/api/updateNotes`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          saleID: customerData.saleID,
+          notes: customerData.notes, // Use the updated notes value
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Notes updated:", data);
