@@ -11,7 +11,7 @@ const SaleList = () => {
     const fetchSales = async () => {
       try {
         const response = await fetch(
-          `http://saletrackerserver-production.up.railway.app/api/viewSales`
+          `https://saletrackerserver-production.up.railway.app/api/viewSales`
         );
         const data = await response.json();
         setSales(data.saleItems);

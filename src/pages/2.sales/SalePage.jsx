@@ -42,7 +42,7 @@ const Services = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `https://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -55,7 +55,7 @@ const Services = () => {
 
   const fetchSaleItems = () => {
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${customerData.saleID}`
+      `https://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${customerData.saleID}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -106,7 +106,7 @@ const Services = () => {
     };
 
     // Send the data to the backend
-    fetch("http://saletrackerserver-production.up.railway.app/api/addToSale", {
+    fetch("https://saletrackerserver-production.up.railway.app/api/addToSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const Services = () => {
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/updateNotes`,
+      `https://saletrackerserver-production.up.railway.app/api/updateNotes`,
       {
         method: "POST",
         headers: {

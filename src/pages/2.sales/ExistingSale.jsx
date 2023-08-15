@@ -21,7 +21,7 @@ const ExistingSale = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `https://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -35,7 +35,7 @@ const ExistingSale = () => {
 
   const fetchSaleItems = () => {
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${saleID}`
+      `https://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${saleID}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -59,7 +59,7 @@ const ExistingSale = () => {
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/updateNotes`,
+      `https://saletrackerserver-production.up.railway.app/api/updateNotes`,
       {
         method: "POST",
         headers: {
@@ -116,7 +116,7 @@ const ExistingSale = () => {
     };
 
     // Send the data to the backend
-    fetch("http://saletrackerserver-production.up.railway.app/api/addToSale", {
+    fetch("https://saletrackerserver-production.up.railway.app/api/addToSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +142,7 @@ const ExistingSale = () => {
   const handleCloseSale = () => {
     // Send the current sale ID to the backend
     fetch(
-      `http://saletrackerserver-production.up.railway.app/api/closeSale/${saleID}`,
+      `https://saletrackerserver-production.up.railway.app/api/closeSale/${saleID}`,
       {
         method: "POST",
         headers: {

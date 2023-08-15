@@ -12,7 +12,7 @@ const CustomerTable = () => {
     const fetchcustomers = async () => {
       try {
         const response = await fetch(
-          `http://saletrackerserver-production.up.railway.app/api/customers?search=${searchTerm}&page=${currentPage}`
+          `https://saletrackerserver-production.up.railway.app/api/customers?search=${searchTerm}&page=${currentPage}`
         );
         const data = await response.json();
 
@@ -30,7 +30,7 @@ const CustomerTable = () => {
     setCurrentPage(1);
     try {
       const response = await fetch(
-        `http://saletrackerserver-production.up.railway.app/api/customers?search=${searchTerm}&page=${currentPage}`
+        `https://saletrackerserver-production.up.railway.app/api/customers?search=${searchTerm}&page=${currentPage}`
       );
       const data = await response.json();
 
@@ -52,7 +52,7 @@ const CustomerTable = () => {
   const redirectMe = (number) => {
     sessionStorage.setItem("customerPhoneNumber", number);
 
-    fetch("http://saletrackerserver-production.up.railway.app/api/startSale", {
+    fetch("https://saletrackerserver-production.up.railway.app/api/startSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
