@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import backendServer from "../../components/BackendServer";
 
 const ExistingSale = () => {
   const [customerData, setCustomerData] = useState({
@@ -7,6 +8,7 @@ const ExistingSale = () => {
     email: "",
     saleID: "",
     notes: "",
+    date: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -20,7 +22,7 @@ const ExistingSale = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `https://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `${backendServer}/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -33,9 +35,7 @@ const ExistingSale = () => {
   };
 
   const fetchSaleItems = () => {
-    fetch(
-      `https://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${saleID}`
-    )
+    fetch(`${backendServer}/api/saleItems?saleID=${saleID}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.items);
@@ -55,22 +55,18 @@ const ExistingSale = () => {
   const handleNotesChange = (event) => {
     setCustomerData({ ...customerData, notes: event.target.value });
   };
-
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
-    fetch(
-      `https://saletrackerserver-production.up.railway.app/api/updateNotes`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          saleID: saleID,
-          notes: customerData.notes, // Use the updated notes value
-        }),
-      }
-    )
+    fetch(`${backendServer}/api/updateNotes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        saleID: saleID,
+        notes: customerData.notes, // Use the updated notes value
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Notes updated:", data);
@@ -116,7 +112,7 @@ const ExistingSale = () => {
     };
 
     // Send the data to the backend
-    fetch("https://saletrackerserver-production.up.railway.app/api/addToSale", {
+    fetch("${backendServer}/api/addToSale", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -141,15 +137,12 @@ const ExistingSale = () => {
 
   const handleCloseSale = () => {
     // Send the current sale ID to the backend
-    fetch(
-      `https://saletrackerserver-production.up.railway.app/api/closeSale/${saleID}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    fetch(`${backendServer}/api/closeSale/${saleID}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Sale closed:", data);
@@ -162,6 +155,15 @@ const ExistingSale = () => {
       });
   };
 
+  function formatDate(dateString) {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
+    return formattedDate;
+  }
+
   return (
     <div className="flex justify-center bg-gray-500 min-h-screen ">
       <div className="max-w-md p-6 bg-white rounded-lg shadow-lg min h-2/3">
@@ -171,6 +173,11 @@ const ExistingSale = () => {
           Sale ID:
         </label>
         <p className="mb-2">{saleID}</p>
+
+        <label htmlFor="date" className="text-gray-700 font-semibold mb-1">
+          Date Created:
+        </label>
+        <p className="mb-4">{formatDate(customerData.date)}</p>
         <label
           htmlFor="phoneNumber"
           className="text-gray-700 font-semibold mb-1"
