@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import backendServer from "../../components/BackendServer";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -30,6 +31,7 @@ const Services = () => {
     email: "",
     saleID: "",
     notes: "",
+    date: "",
   });
   const [productName, setProductName] = useState("");
   const [daysUntilRefill, setDaysUntilRefill] = useState("");
@@ -41,7 +43,7 @@ const Services = () => {
 
   const fetchCustomerData = () => {
     fetch(
-      `https://saletrackerserver-production.up.railway.app/api/customerData?phoneNumber=${customerPhoneNumber}`
+      `${backendServer}/api/customerData?phoneNumber=${customerPhoneNumber}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -53,9 +55,7 @@ const Services = () => {
   };
 
   const fetchSaleItems = () => {
-    fetch(
-      `https://saletrackerserver-production.up.railway.app/api/saleItems?saleID=${customerData.saleID}`
-    )
+    fetch(`${backendServer}/api/saleItems?saleID=${customerData.saleID}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.items);
@@ -105,7 +105,7 @@ const Services = () => {
     };
 
     // Send the data to the backend
-    fetch("https://saletrackerserver-production.up.railway.app/api/addToSale", {
+    fetch(`${backendServer}/api/addToSale`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -134,19 +134,16 @@ const Services = () => {
 
   const handleUpdateNotes = () => {
     // Send the updated notes to the backend
-    fetch(
-      `https://saletrackerserver-production.up.railway.app/api/updateNotes`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          saleID: customerData.saleID,
-          notes: customerData.notes, // Use the updated notes value
-        }),
-      }
-    )
+    fetch(`${backendServer}/api/updateNotes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        saleID: customerData.saleID,
+        notes: customerData.notes, // Use the updated notes value
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("Notes updated:", data);
@@ -158,6 +155,15 @@ const Services = () => {
       });
   };
 
+  function formatDate(dateString) {
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      "en-US",
+      options
+    );
+    return formattedDate;
+  }
+
   return (
     <ErrorBoundary>
       <div className="flex justify-center bg-gray-200">
@@ -168,6 +174,12 @@ const Services = () => {
             Sale ID:
           </label>
           <p className="mb-2">{customerData.saleID}</p>
+
+          <label htmlFor="date" className="text-gray-700 font-semibold mb-1">
+            Date Created:
+          </label>
+          <p className="mb-4">{formatDate(customerData.date)}</p>
+
           <label
             htmlFor="phoneNumber"
             className="text-gray-700 font-semibold mb-1"

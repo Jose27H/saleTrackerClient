@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import backendServer from "../../components/BackendServer";
 
 const ClosedSaleList = () => {
   const [sales, setSales] = useState([]);
@@ -10,9 +11,7 @@ const ClosedSaleList = () => {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch(
-          `https://saletrackerserver-production.up.railway.app/api/viewClosedSales`
-        );
+        const response = await fetch(`${backendServer}/api/viewClosedSales`);
         const data = await response.json();
         setSales(data.saleItems);
         setTotalPages(Math.ceil(data.saleItems.length / pageSize));
