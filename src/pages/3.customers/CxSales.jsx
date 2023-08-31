@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import backendServer from "../../components/BackendServer";
 
 const CxSales = () => {
   const [sales, setSales] = useState([]);
@@ -14,7 +15,7 @@ const CxSales = () => {
         const number = sessionStorage.getItem("customerPhoneNumber");
 
         const response = await fetch(
-          `https://saletrackerserver-production.up.railway.app/api/viewCxSales?phoneNumber=${number}`
+          `${backendServer}/api/viewCxSales?phoneNumber=${number}`
         );
         const data = await response.json();
         setSales(data.saleItems);

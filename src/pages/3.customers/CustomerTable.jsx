@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import backendServer from "../../components/BackendServer";
 
 const CustomerTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,7 +13,7 @@ const CustomerTable = () => {
     const fetchcustomers = async () => {
       try {
         const response = await fetch(
-          `https://saletrackerserver-production.up.railway.app/api/customers?search=${searchTerm}&page=${currentPage}`
+          `${backendServer}/api/customers?search=${searchTerm}&page=${currentPage}`
         );
         const data = await response.json();
 
@@ -30,7 +31,7 @@ const CustomerTable = () => {
     setCurrentPage(1);
     try {
       const response = await fetch(
-        `https://saletrackerserver-production.up.railway.app/api/customers?search=${searchTerm}&page=${currentPage}`
+        `${backendServer}/api/customers?search=${searchTerm}&page=${currentPage}`
       );
       const data = await response.json();
 
@@ -52,7 +53,7 @@ const CustomerTable = () => {
   const redirectMe = (number) => {
     sessionStorage.setItem("customerPhoneNumber", number);
 
-    fetch("https://saletrackerserver-production.up.railway.app/api/startSale", {
+    fetch(`${backendServer}/api/startSale`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

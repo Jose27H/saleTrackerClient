@@ -9,6 +9,7 @@ import ClosedSaleList from "./pages/2.sales/ClosedSaleList";
 import SaleHome from "./pages/2.sales/SaleHome";
 import SaleList from "./pages/2.sales/SaleList";
 import CxSales from "./pages/3.customers/CxSales";
+import SalesTable from "./pages/4.testing/newtable";
 import "./App.css";
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/SaleList" element={<SaleList />} />
           <Route path="/Sales" element={<SaleHome />} />
           <Route path="/CxSales" element={<CxSales />} />
+          <Route path="/SalesTable" element={<SalesTable />} />
         </Routes>
       </Router>
     </div>

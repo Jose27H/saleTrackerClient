@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import backendServer from "../../components/BackendServer";
 
 const SaleList = () => {
   const [sales, setSales] = useState([]);
@@ -10,9 +11,7 @@ const SaleList = () => {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await fetch(
-          `https://saletrackerserver-production.up.railway.app/api/viewSales`
-        );
+        const response = await fetch(`${backendServer}/api/viewSales`);
         const data = await response.json();
         setSales(data.saleItems);
         console.log(sales);
