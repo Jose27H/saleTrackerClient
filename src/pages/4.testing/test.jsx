@@ -1,3 +1,4 @@
+/* This example requires Tailwind CSS v2.0+ */
 import React, { useState, useEffect } from "react";
 import backendServer from "../../components/BackendServer";
 
@@ -24,10 +25,6 @@ const SalesTable = () => {
       options
     );
     return formattedDate;
-  };
-
-  const handleReordered = (soldItem, saleID) => {
-    alert(soldItem + "     " + saleID);
   };
 
   return (
@@ -92,22 +89,18 @@ const SalesTable = () => {
                   </dl>
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
-                  {sale.sold_item}
+                  {person.title}
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
-                  {formatDate(sale.sale_date)}
+                  {person.email}
                 </td>
                 <td className="px-3 py-4 text-sm text-gray-500">
-                  {formatDate(sale.reorder_date)}
+                  {person.role}
                 </td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <button
-                    onClick={() => handleReordered(sale.sold_item, sale.saleid)}
-                    className="text-red-600 hover:text-indigo-900"
-                  >
-                    Ordered
-                    <span className="sr-only">, {sale.customer_name}</span>
-                  </button>
+                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                    Edit<span className="sr-only">, {person.name}</span>
+                  </a>
                 </td>
               </tr>
             ))}
