@@ -1,4 +1,4 @@
-const backendServer = "http://localhost:5000";
+const backendServer = "https://saletrackerserver-production.up.railway.app";
 
 export default backendServer;
 //const backendServer = "https://saletrackerserver-production.up.railway.app";
