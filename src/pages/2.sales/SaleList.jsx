@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import backendServer from "../../components/BackendServer";
+import SalesTable from "../4.testing/newtable";
 
 const SaleList = () => {
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showSaleTable, setShowSaleTable] = useState(false); // State to control component rendering
 
   const pageSize = 10; // Number of items per page
 
@@ -22,6 +24,10 @@ const SaleList = () => {
     };
     fetchSales();
   }, []);
+
+  const handleShowSaleTable = () => {
+    setShowSaleTable(!showSaleTable);
+  };
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -45,34 +51,44 @@ const SaleList = () => {
       <h1 className="text-4xl font-bold text-center bg-gray-500 py-4">
         Open Sales
       </h1>
-      {sales.slice(startIndex, endIndex).map((item, index) => (
-        <div
-          key={item.saleid}
-          className={`py-4 text-center ${
-            index % 2 === 0 ? "bg-gray-200" : "bg-gray-300"
-          } rounded-lg`}
-        >
-          <p>
-            <strong>Customer Name:</strong> {item.customername}
-          </p>
-          <p>
-            <strong>Phone Number:</strong> {item.phonenumber}
-          </p>
-          <p>
-            <strong>Sale ID:</strong> {item.saleid}
-          </p>
-          <p>
-            <strong>Total Items:</strong> {item.totalitems}
-          </p>
-          {/* Add a styled button for each result */}
-          <button
-            onClick={() => handleButtonClick(item)}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-2"
+      <button
+        onClick={handleShowSaleTable}
+        className="bg-gray-300 text-gray-700 py-2 px-4 rounded mx-auto block hover:bg-gray-400 mt-2"
+      >
+        Toggle Sale Table
+      </button>
+      {showSaleTable ? (
+        <SalesTable />
+      ) : (
+        sales.slice(startIndex, endIndex).map((item, index) => (
+          <div
+            key={item.saleid}
+            className={`py-4 text-center ${
+              index % 2 === 0 ? "bg-gray-200" : "bg-gray-300"
+            } rounded-lg`}
           >
-            View Sale
-          </button>
-        </div>
-      ))}
+            <p>
+              <strong>Customer Name:</strong> {item.customername}
+            </p>
+            <p>
+              <strong>Phone Number:</strong> {item.phonenumber}
+            </p>
+            <p>
+              <strong>Sale ID:</strong> {item.saleid}
+            </p>
+            <p>
+              <strong>Total Items:</strong> {item.totalitems}
+            </p>
+            {/* Add a styled button for each result */}
+            <button
+              onClick={() => handleButtonClick(item)}
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mt-2"
+            >
+              View Sale
+            </button>
+          </div>
+        ))
+      )}
       {/* Pagination buttons */}
       <div className="flex justify-center mt-4">
         <button

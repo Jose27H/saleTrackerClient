@@ -238,58 +238,6 @@ const ExistingSale = () => {
           <span className="font-semibold">Total:</span> ${total}
         </p>
 
-        <div className="mb-4">
-          <label htmlFor="productName" className="text-gray-700 font-semibold">
-            Product Name:
-          </label>
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            value={productName}
-            onChange={handleProductNameChange}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            htmlFor="daysUntilRefill"
-            className="text-gray-700 font-semibold"
-          >
-            Days Until Refill:
-          </label>
-          <input
-            type="text"
-            id="daysUntilRefill"
-            name="daysUntilRefill"
-            value={daysUntilRefill}
-            onChange={handleDaysUntilRefillChange}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="price" className="text-gray-700 font-semibold">
-            Price:
-          </label>
-          <input
-            type="text"
-            id="price"
-            name="price"
-            value={price}
-            onChange={handlePriceChange}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-          />
-        </div>
-
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          onClick={handleAddtoSale}
-        >
-          Add to Sale
-        </button>
-
         <button
           className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
           onClick={handleCloseSale}
