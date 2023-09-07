@@ -4,7 +4,7 @@ import PhoneCheckForm from "../../components/patientform/PhoneCheckForm.jsx";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-red-500">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-500">
       <img
         src="https://logos-world.net/wp-content/uploads/2020/11/Nutrilite-Emblem.png"
         className="w-3/4"
